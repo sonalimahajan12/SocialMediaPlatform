@@ -21,14 +21,14 @@ public class PostController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/{userId}")
+    @PostMapping("/create/{userId}")
     public Post createPost(@PathVariable(value = "userId") Long userId, @Valid @RequestBody Post post) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         post.setUser(user);
         return postRepository.save(post);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/get/{userId}")
     public List<Post> getPostsByUser(@PathVariable(value = "userId") Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         return postRepository.findByUser(user);
@@ -41,7 +41,7 @@ public class PostController {
         return postRepository.save(post);
     }
 
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/delete/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable(value = "postId") Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
         postRepository.delete(post);

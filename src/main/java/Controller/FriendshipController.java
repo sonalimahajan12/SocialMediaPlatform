@@ -18,7 +18,7 @@ public class FriendshipController {
     @Autowired
     private FriendshipRepository friendshipRepository;
 
-    @PostMapping
+    @PostMapping("{id}")
     public ResponseEntity<Friendship> createFriendship(@RequestParam String userEmail, @RequestParam String friendEmail) {
         User user = userRepository.findByEmail(userEmail);
         User friend = userRepository.findByEmail(friendEmail);
@@ -34,7 +34,7 @@ public class FriendshipController {
         return ResponseEntity.ok(newFriendship);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteFriendship(@PathVariable(value = "id") Long friendshipId) {
         Friendship friendship = friendshipRepository.findById(friendshipId)
                 .orElseThrow(() -> new ResourceNotFoundException("Friendship", "id", friendshipId));
